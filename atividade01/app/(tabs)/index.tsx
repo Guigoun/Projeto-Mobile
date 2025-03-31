@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, View } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -14,12 +14,16 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">PetShop App</ThemedText>
+        <ThemedText type="title">PetShop</ThemedText>
       </ThemedView>
 
       {services.map((service, index) => (
         <ThemedView key={index} style={styles.stepContainer}>
-          <Image source={service.image} style={styles.serviceImage} />
+          <Image 
+            source={service.image} 
+            style={[styles.serviceImage, { aspectRatio: service.aspectRatio }]} 
+            resizeMode="contain"
+          />
           <ThemedText type="subtitle">{service.title}</ThemedText>
           <ThemedText>
             {service.description} <ThemedText type="defaultSemiBold">{service.highlight}</ThemedText>
@@ -36,30 +40,35 @@ const services = [
     description: 'Agende o banho e tosa do seu pet com nossos profissionais especializados.',
     highlight: 'Toalha e perfume inclusos!',
     image: require('@/assets/images/banho-tosa.jpg'),
+    aspectRatio: 5 / 8,
   },
   {
     title: 'Serviço 2: Consulta Veterinária',
     description: 'Marque consultas com nossos veterinários para check-ups, vacinas e tratamentos.',
     highlight: 'Aberto 24 horas!',
     image: require('@/assets/images/consulta-veterinaria.jpg'),
+    aspectRatio: 4 / 3,
   },
   {
     title: 'Serviço 3: Loja de Produtos',
     description: 'Encontre tudo para seu pet: rações, acessórios, medicamentos e brinquedos.',
     highlight: 'Frete grátis acima de R$100!',
     image: require('@/assets/images/loja-produtos.jpg'),
+    aspectRatio: 3 / 2,
   },
   {
     title: 'Serviço 4: Hotel para Pets',
     description: 'Deixe seu pet em nossas mãos quando precisar viajar.',
     highlight: 'Monitoramento 24h e muito carinho!',
     image: require('@/assets/images/hotel-pets.jpg'),
+    aspectRatio: 16 / 10,
   },
   {
     title: 'Serviço 5: Adoção Responsável',
     description: 'Conheça nossos pets disponíveis para adoção.',
     highlight: 'Mude uma vida hoje!',
     image: require('@/assets/images/adocao-responsavel.jpg'),
+    aspectRatio: 5 / 3,
   },
 ];
 
@@ -90,8 +99,9 @@ const styles = StyleSheet.create({
   },
   serviceImage: {
     width: '100%',
-    height: 150,
+    height: undefined,
     borderRadius: 8,
-    resizeMode: 'cover',
+    resizeMode: 'contain', // Ajuste para evitar corte e distorção
+    maxHeight: 200, // Limita a altura máxima das imagens para evitar que fiquem muito grandes
   },
 });
